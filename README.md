@@ -12,7 +12,7 @@ This project demonstrates the Model-View-Controller (MVC) design pattern using A
 - **Engine Management**: Add, view, and list engines with properties (Id, Type, HorsePower)
 - **In-Memory Storage**: Uses static Lists for data persistence during application runtime
 - **Clean Architecture**: Separates concerns using Models, Interfaces, Controllers, and Views
-- **Responsive UI**: Bootstrap 5 styling
+
 
 ## Project Structure
 
