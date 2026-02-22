@@ -72,16 +72,29 @@ WebApplication3/
 3. Open your browser and navigate to:
    - http://localhost:5000
 
-### Default Routes
+                             
+## Default Routes
 
-| URL | Description |
-|-----|-------------|
-| `/Car/Index` | List all cars |
-| `/Car/Create` | Add a new car |
-| `/Car/Details/{id}` | View car details |
-| `/Engine/Index` | List all engines |
-| `/Engine/Create` | Add a new engine |
-| `/Engine/Details/{id}` | View engine details |
+Each controller implements **exactly 3 endpoints**:
+
+#### CarController Endpoints
+
+| Endpoint | HTTP Method | URL | Description |
+|----------|-------------|-----|-------------|
+| **Index** | GET | `/Car/Index` | Returns view with list of all cars |
+| **Details** | GET | `/Car/Details/{id}` | Returns view with single car by ID |
+| **Create** | GET | `/Car/Create` | Returns create form |
+| **Create** | POST | `/Car/Create` | Adds car to list, redirects to Index |
+
+#### EngineController Endpoints
+
+| Endpoint | HTTP Method | URL | Description |
+|----------|-------------|-----|-------------|
+| **Index** | GET | `/Engine/Index` | Returns view with list of all engines |
+| **Details** | GET | `/Engine/Details/{id}` | Returns view with single engine by ID |
+| **Create** | GET | `/Engine/Create` | Returns create form |
+| **Create** | POST | `/Engine/Create` | Adds engine to list, redirects to Index |
+
 
 ## Architecture Explained
 
