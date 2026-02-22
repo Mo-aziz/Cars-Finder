@@ -135,26 +135,10 @@ Browser → Controller → Model (static List) → View → Browser
 - **In-Memory Storage**: Data is stored in static Lists and persists only while the application is running. Restarting the app clears all data.
 - **No Database**: This project intentionally does not use Entity Framework or any database to keep it simple and focused on MVC concepts.
 
-## Screenshots
-
-*Add screenshots here showing the application in action*
-
-## Future Enhancements
-
-- Add Edit and Delete operations
-- Add search/filter functionality
-- Implement proper database storage (SQL Server, SQLite)
-- Add validation attributes to models
-- Add unit tests
-
 ## Author
 
-- **Mohammed Aziz** - [GitHub Profile](https://github.com/Mo-aziz)
+- **Mohammed Ahmed AbdelAziz** - [GitHub Profile](https://github.com/Mo-aziz)
 
-## License
 
-This project is open source and available for educational purposes.
 
----
 
-Built with ❤️ using ASP.NET Core MVC
