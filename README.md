@@ -527,13 +527,19 @@ dotnet ef database update
 - HTTP-only cookies explanation
 
 ## Screenshots
-
+- GET Manufacturer (Admin Role)
 ![alt text](<Screenshot 2026-04-01 222610.png>)
+- POST Manufacturer (Admin Role)
 ![alt text](<Screenshot 2026-04-01 222758.png>)
+- POST Car (Admin Role)
 ![alt text](<Screenshot 2026-04-01 222959.png>)
+- GET Car (Admin Role)
 ![alt text](<Screenshot 2026-04-01 223046.png>)
+- PUT Car (Admin Role)
 ![alt text](<Screenshot 2026-04-01 223412.png>)
+- DELETE Car (Admin role)
 ![alt text](<Screenshot 2026-04-01 223503.png>)
+- DELETE Car (User role)
 ![alt text](<Screenshot 2026-04-01 224631.png>)
 
 ## Author
