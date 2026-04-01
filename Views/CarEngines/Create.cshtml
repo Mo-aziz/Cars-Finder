@@ -1,0 +1,41 @@
+@model WebApplication3.DTOs.CarEngineCreateDto
+@{
+    ViewData["Title"] = "Create Car Engine";
+}
+
+<h2>Create Car Engine Relationship</h2>
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+    <div class="mb-3">
+        <label asp-for="CarId">Car</label>
+        <select asp-for="CarId" class="form-control" asp-items="ViewBag.Cars">
+            <option value="">-- Select Car --</option>
+        </select>
+        <span asp-validation-for="CarId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="EngineId">Engine</label>
+        <select asp-for="EngineId" class="form-control" asp-items="ViewBag.Engines">
+            <option value="">-- Select Engine --</option>
+        </select>
+        <span asp-validation-for="EngineId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="InstallationDate"></label>
+        <input asp-for="InstallationDate" class="form-control" type="date" />
+        <span asp-validation-for="InstallationDate" class="text-danger"></span>
+    </div>
+
+    <div>
+        <button type="submit" class="btn btn-primary">Create</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

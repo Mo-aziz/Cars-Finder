@@ -1,0 +1,45 @@
+@model IEnumerable<WebApplication3.DTOs.CarProfileListDto>
+@{
+    ViewData["Title"] = "Car Profiles";
+}
+
+<h2>Car Profiles</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New Profile</a>
+</p>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Car</th>
+                <th>Color</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.CarBrand @item.CarModel</td>
+                    <td>@item.Color</td>
+                    <td>$@item.Price</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Details</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No car profiles found. <a asp-action="Create">Add a profile</a></p>
+}

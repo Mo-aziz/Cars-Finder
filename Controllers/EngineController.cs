@@ -1,37 +1,33 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using WebApplication3.Interfaces;
 using WebApplication3.Models;
+using WebApplication3.DTOs;
 
 namespace WebApplication3.Controllers;
 
-public class EngineController : Controller, IEngine
+public class EngineController : Controller
 {
-    private static List<Engine> engines = new List<Engine>();
+    private readonly IEngineService _engineService;
 
-    public List<Engine> GetAll()
+    public EngineController(IEngineService engineService)
     {
-        return engines;
+        _engineService = engineService;
     }
 
-    public Engine? GetById(int id)
+    // ==================== MVC Views ====================
+
+    [Authorize(Roles = "User,Instructor,Admin")]
+    public async Task<IActionResult> Index()
     {
-        return engines.FirstOrDefault(e => e.Id == id);
+        var engines = await _engineService.GetAllAsync();
+        return View(engines);
     }
 
-    public void Add(Engine engine)
+    [Authorize(Roles = "User,Instructor,Admin")]
+    public async Task<IActionResult> Details(int id)
     {
-        engines.Add(engine);
-    }
-
-    public IActionResult Index()
-    {
-        var allEngines = GetAll();
-        return View(allEngines);
-    }
-
-    public IActionResult Details(int id)
-    {
-        var engine = GetById(id);
+        var engine = await _engineService.GetEngineDetailsAsync(id);
         if (engine == null)
         {
             return NotFound();
@@ -39,20 +35,138 @@ public class EngineController : Controller, IEngine
         return View(engine);
     }
 
-    [HttpGet]
+    [Authorize(Roles = "Instructor,Admin")]
     public IActionResult Create()
     {
         return View();
     }
 
     [HttpPost]
-    public IActionResult Create(Engine engine)
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Instructor,Admin")]
+    public async Task<IActionResult> Create(EngineCreateDto engineDto)
     {
         if (ModelState.IsValid)
         {
-            Add(engine);
-            return RedirectToAction("Index");
+            await _engineService.CreateAsync(engineDto);
+            return RedirectToAction(nameof(Index));
+        }
+        return View(engineDto);
+    }
+
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var engine = await _engineService.GetByIdAsync(id);
+        if (engine == null)
+        {
+            return NotFound();
+        }
+        
+        var updateDto = new EngineUpdateDto
+        {
+            Type = engine.Type,
+            HorsePower = engine.HorsePower
+        };
+        return View(updateDto);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Edit(int id, EngineUpdateDto engineDto)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await _engineService.UpdateAsync(id, engineDto);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+        return View(engineDto);
+    }
+
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var engine = await _engineService.GetByIdAsync(id);
+        if (engine == null)
+        {
+            return NotFound();
         }
         return View(engine);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        await _engineService.DeleteAsync(id);
+        return RedirectToAction(nameof(Index));
+    }
+
+    // ==================== API Endpoints ====================
+
+    [HttpGet("api/[controller]")]
+    [Authorize(Roles = "User,Instructor,Admin")]
+    public async Task<ActionResult<IEnumerable<EngineListDto>>> GetAllApi()
+    {
+        var engines = await _engineService.GetAllAsync();
+        return Ok(engines);
+    }
+
+    [HttpGet("api/[controller]/{id}")]
+    [Authorize(Roles = "User,Instructor,Admin")]
+    public async Task<ActionResult<EngineDetailsDto>> GetByIdApi(int id)
+    {
+        var engine = await _engineService.GetByIdAsync(id);
+        if (engine == null)
+        {
+            return NotFound();
+        }
+        return Ok(engine);
+    }
+
+    [HttpPost("api/[controller]")]
+    [Authorize(Roles = "Admin,Instructor")]
+    public async Task<ActionResult<EngineDetailsDto>> CreateApi([FromBody] EngineCreateDto engineDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var engine = await _engineService.CreateAsync(engineDto);
+        return CreatedAtAction(nameof(GetByIdApi), new { id = engine.Id }, engine);
+    }
+
+    [HttpPut("api/[controller]/{id}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<EngineDetailsDto>> UpdateApi(int id, [FromBody] EngineUpdateDto engineDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var engine = await _engineService.UpdateAsync(id, engineDto);
+        if (engine == null)
+        {
+            return NotFound();
+        }
+        return Ok(engine);
+    }
+
+    [HttpDelete("api/[controller]/{id}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult> DeleteApi(int id)
+    {
+        var result = await _engineService.DeleteAsync(id);
+        if (!result)
+        {
+            return NotFound();
+        }
+        return NoContent();
     }
 }

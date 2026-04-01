@@ -1,0 +1,20 @@
+@model WebApplication3.DTOs.EngineDetailsDto
+@{
+    ViewData["Title"] = "Delete Engine";
+}
+
+<h2>Delete Engine</h2>
+
+<p><strong>Are you sure you want to delete this engine?</strong></p>
+
+<div>
+    <strong>ID:</strong> @Model.Id<br />
+    <strong>Type:</strong> @Model.Type<br />
+    <strong>HorsePower:</strong> @Model.HorsePower<br />
+</div>
+
+<form asp-action="Delete" style="margin-top: 20px;">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

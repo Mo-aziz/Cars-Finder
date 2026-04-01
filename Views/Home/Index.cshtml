@@ -1,0 +1,18 @@
+@model WebApplication3.Controllers.DashboardViewModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h1>Car Management System</h1>
+<p>Welcome to the car management application.</p>
+
+<h2>Menu</h2>
+<ul>
+    <li><a href="/Car">Cars</a> - Total: @Model.TotalCars</li>
+    <li><a href="/Engine">Engines</a> - Total: @Model.TotalEngines</li>
+    <li><a href="/Manufacturer">Manufacturers</a> - Total: @Model.TotalManufacturers</li>
+    <li><a href="/CarProfiles">Car Profiles</a> - Total: @Model.TotalCarProfiles</li>
+    <li><a href="/CarEngines">Car Engines</a> - Total: @Model.TotalCarEngines</li>
+</ul>
+
+<p><a href="/Car/Create" class="btn btn-primary">Add New Car</a></p>

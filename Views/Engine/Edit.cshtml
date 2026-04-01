@@ -1,0 +1,39 @@
+@model WebApplication3.DTOs.EngineUpdateDto
+@{
+    ViewData["Title"] = "Edit Engine";
+    var engineId = ViewContext.RouteData.Values["id"];
+}
+
+<h2>Edit Engine</h2>
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" name="id" value="@engineId" />
+    
+    <div class="mb-3">
+        <label asp-for="Type"></label>
+        <input asp-for="Type" class="form-control" />
+        <span asp-validation-for="Type" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="HorsePower"></label>
+        <input asp-for="HorsePower" class="form-control" />
+        <span asp-validation-for="HorsePower" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FuelType"></label>
+        <input asp-for="FuelType" class="form-control" />
+        <span asp-validation-for="FuelType" class="text-danger"></span>
+    </div>
+
+    <div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,19 @@
+@model WebApplication3.DTOs.CarEngineDetailsDto
+@{
+    ViewData["Title"] = "Car Engine Details";
+}
+
+<h2>Car Engine Details</h2>
+
+<div>
+    <strong>Car:</strong> @Model.CarBrand @Model.CarModel (@Model.CarYear)<br />
+    <strong>Engine:</strong> @Model.EngineType<br />
+    <strong>HorsePower:</strong> @Model.EngineHorsePower<br />
+    <strong>Fuel Type:</strong> @Model.EngineFuelType<br />
+    <strong>Installation Date:</strong> @Model.InstallationDate.ToShortDateString()<br />
+</div>
+
+<div style="margin-top: 20px;">
+    <a asp-action="Edit" asp-route-carId="@Model.CarId" asp-route-engineId="@Model.EngineId" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

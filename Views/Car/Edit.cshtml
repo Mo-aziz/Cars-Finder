@@ -1,0 +1,47 @@
+@model WebApplication3.DTOs.CarUpdateDto
+@{
+    ViewData["Title"] = "Edit Car";
+    var carId = ViewContext.RouteData.Values["id"];
+}
+
+<h2>Edit Car</h2>
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" name="id" value="@carId" />
+    
+    <div class="mb-3">
+        <label asp-for="Brand"></label>
+        <input asp-for="Brand" class="form-control" />
+        <span asp-validation-for="Brand" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Model"></label>
+        <input asp-for="Model" class="form-control" />
+        <span asp-validation-for="Model" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Year"></label>
+        <input asp-for="Year" class="form-control" />
+        <span asp-validation-for="Year" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ManufacturerId">Manufacturer</label>
+        <select asp-for="ManufacturerId" class="form-control" asp-items="ViewBag.Manufacturers">
+            <option value="">-- Select Manufacturer --</option>
+        </select>
+        <span asp-validation-for="ManufacturerId" class="text-danger"></span>
+    </div>
+
+    <div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

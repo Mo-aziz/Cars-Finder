@@ -1,0 +1,19 @@
+@model WebApplication3.DTOs.CarProfileDetailsDto
+@{
+    ViewData["Title"] = "Car Profile Details";
+}
+
+<h2>Car Profile Details</h2>
+
+<div>
+    <strong>ID:</strong> @Model.Id<br />
+    <strong>Car:</strong> @Model.CarBrand @Model.CarModel (@Model.CarYear)<br />
+    <strong>Color:</strong> @Model.Color<br />
+    <strong>Price:</strong> $@Model.Price<br />
+    <strong>Description:</strong> @Model.Description<br />
+</div>
+
+<div style="margin-top: 20px;">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

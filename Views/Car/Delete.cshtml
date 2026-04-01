@@ -1,0 +1,22 @@
+@model WebApplication3.DTOs.CarDetailsDto
+@{
+    ViewData["Title"] = "Delete Car";
+}
+
+<h2>Delete Car</h2>
+
+<p><strong>Are you sure you want to delete this car?</strong></p>
+
+<div>
+    <strong>ID:</strong> @Model.Id<br />
+    <strong>Brand:</strong> @Model.Brand<br />
+    <strong>Model:</strong> @Model.Model<br />
+    <strong>Year:</strong> @Model.Year<br />
+    <strong>Manufacturer:</strong> @Model.ManufacturerName<br />
+</div>
+
+<form asp-action="Delete" style="margin-top: 20px;">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,26 +1,53 @@
-@model WebApplication3.Models.Car
-
+@model WebApplication3.DTOs.CarDetailsDto
 @{
     ViewData["Title"] = "Car Details";
 }
 
-<h1>Car Details</h1>
+<h2>Car Details</h2>
 
 <div>
-    <dl class="row">
-        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Id)</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Id)</dd>
-
-        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Brand)</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Brand)</dd>
-
-        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Model)</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Model)</dd>
-
-        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Year)</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Year)</dd>
-    </dl>
+    <div>
+        <strong>ID:</strong>
+        <span>@Model.Id</span>
+    </div>
+    
+    <div>
+        <strong>Brand:</strong>
+        <span>@Model.Brand</span>
+    </div>
+    
+    <div>
+        <strong>Model:</strong>
+        <span>@Model.Model</span>
+    </div>
+    
+    <div>
+        <strong>Year:</strong>
+        <span>@Model.Year</span>
+    </div>
+    
+    <div>
+        <strong>Manufacturer:</strong>
+        <span>@Model.ManufacturerName</span>
+    </div>
+    
+    <div>
+        <strong>Color:</strong>
+        <span>@Model.Color</span>
+    </div>
+    
+    <div>
+        <strong>Price:</strong>
+        <span>$@Model.Price</span>
+    </div>
+    
+    <div>
+        <strong>Description:</strong>
+        <span>@Model.Description</span>
+    </div>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
+
+<div style="margin-top: 20px;">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
