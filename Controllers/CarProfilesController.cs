@@ -20,14 +20,12 @@ public class CarProfilesController : Controller
 
     // ==================== MVC Views ====================
 
-    [Authorize(Roles = "User,Instructor,Admin")]
     public async Task<IActionResult> Index()
     {
         var carProfiles = await _carProfileService.GetAllAsync();
         return View(carProfiles);
     }
 
-    [Authorize(Roles = "User,Instructor,Admin")]
     public async Task<IActionResult> Details(int id)
     {
         var carProfile = await _carProfileService.GetCarProfileDetailsAsync(id);
@@ -38,7 +36,6 @@ public class CarProfilesController : Controller
         return View(carProfile);
     }
 
-    [Authorize(Roles = "Instructor,Admin")]
     public async Task<IActionResult> Create()
     {
         var cars = await _carService.GetAllAsync();
@@ -48,7 +45,6 @@ public class CarProfilesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Instructor,Admin")]
     public async Task<IActionResult> Create(CarProfileCreateDto carProfileDto)
     {
         if (ModelState.IsValid)
@@ -61,7 +57,7 @@ public class CarProfilesController : Controller
         return View(carProfileDto);
     }
 
-    [Authorize(Roles = "Admin")]
+
     public async Task<IActionResult> Edit(int id)
     {
         var carProfile = await _carProfileService.GetByIdAsync(id);
@@ -84,7 +80,6 @@ public class CarProfilesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(int id, CarProfileUpdateDto carProfileDto)
     {
         if (ModelState.IsValid)
@@ -102,7 +97,6 @@ public class CarProfilesController : Controller
     }
 
    
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         var carProfile = await _carProfileService.GetByIdAsync(id);

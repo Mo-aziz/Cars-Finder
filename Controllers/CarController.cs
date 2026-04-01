@@ -21,7 +21,6 @@ public class CarController : Controller
     // ==================== MVC Views ====================
 
     // GET: /Car (Index View)
-    [Authorize(Roles = "User,Instructor,Admin")]
     public async Task<IActionResult> Index()
     {
         var cars = await _carService.GetAllAsync();
@@ -29,7 +28,6 @@ public class CarController : Controller
     }
 
     // GET: /Car/Details/5
-    [Authorize(Roles = "User,Instructor,Admin")]
     public async Task<IActionResult> Details(int id)
     {
         var car = await _carService.GetCarDetailsAsync(id);
@@ -41,7 +39,6 @@ public class CarController : Controller
     }
 
     // GET: /Car/Create
-    [Authorize(Roles = "Instructor,Admin")]
     public async Task<IActionResult> Create()
     {
         var manufacturers = await _manufacturerService.GetAllAsync();
@@ -52,7 +49,6 @@ public class CarController : Controller
     // POST: /Car/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Instructor,Admin")]
     public async Task<IActionResult> Create(CarCreateDto carDto)
     {
         if (ModelState.IsValid)
@@ -66,7 +62,6 @@ public class CarController : Controller
     }
 
     // GET: /Car/Edit/5
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(int id)
     {
         var car = await _carService.GetByIdAsync(id);
@@ -90,7 +85,6 @@ public class CarController : Controller
     // POST: /Car/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(int id, CarUpdateDto carDto)
     {
         if (ModelState.IsValid)
@@ -108,7 +102,6 @@ public class CarController : Controller
     }
 
     // GET: /Car/Delete/5
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         var car = await _carService.GetByIdAsync(id);
@@ -122,7 +115,6 @@ public class CarController : Controller
     // POST: /Car/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         await _carService.DeleteAsync(id);

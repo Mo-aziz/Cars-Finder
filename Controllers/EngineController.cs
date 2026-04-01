@@ -17,14 +17,12 @@ public class EngineController : Controller
 
     // ==================== MVC Views ====================
 
-    [Authorize(Roles = "User,Instructor,Admin")]
     public async Task<IActionResult> Index()
     {
         var engines = await _engineService.GetAllAsync();
         return View(engines);
     }
 
-    [Authorize(Roles = "User,Instructor,Admin")]
     public async Task<IActionResult> Details(int id)
     {
         var engine = await _engineService.GetEngineDetailsAsync(id);
@@ -35,7 +33,6 @@ public class EngineController : Controller
         return View(engine);
     }
 
-    [Authorize(Roles = "Instructor,Admin")]
     public IActionResult Create()
     {
         return View();
@@ -43,7 +40,6 @@ public class EngineController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Instructor,Admin")]
     public async Task<IActionResult> Create(EngineCreateDto engineDto)
     {
         if (ModelState.IsValid)
@@ -54,7 +50,6 @@ public class EngineController : Controller
         return View(engineDto);
     }
 
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(int id)
     {
         var engine = await _engineService.GetByIdAsync(id);
@@ -73,7 +68,6 @@ public class EngineController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(int id, EngineUpdateDto engineDto)
     {
         if (ModelState.IsValid)
@@ -88,7 +82,6 @@ public class EngineController : Controller
         return View(engineDto);
     }
 
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         var engine = await _engineService.GetByIdAsync(id);
@@ -101,7 +94,6 @@ public class EngineController : Controller
 
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         await _engineService.DeleteAsync(id);

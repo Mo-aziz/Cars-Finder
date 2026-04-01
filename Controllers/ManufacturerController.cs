@@ -17,14 +17,12 @@ public class ManufacturerController : Controller
 
     // ==================== MVC Views ====================
 
-    [Authorize(Roles = "User,Instructor,Admin")]
     public async Task<IActionResult> Index()
     {
         var manufacturers = await _manufacturerService.GetAllAsync();
         return View(manufacturers);
     }
 
-    [Authorize(Roles = "User,Instructor,Admin")]
     public async Task<IActionResult> Details(int id)
     {
         var manufacturer = await _manufacturerService.GetManufacturerDetailsAsync(id);
@@ -35,7 +33,6 @@ public class ManufacturerController : Controller
         return View(manufacturer);
     }
 
-    [Authorize(Roles = "Instructor,Admin")]
     public IActionResult Create()
     {
         return View();
@@ -43,7 +40,6 @@ public class ManufacturerController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Instructor,Admin")]
     public async Task<IActionResult> Create(ManufacturerCreateDto manufacturerDto)
     {
         if (ModelState.IsValid)
@@ -54,7 +50,7 @@ public class ManufacturerController : Controller
         return View(manufacturerDto);
     }
 
-    [Authorize(Roles = "Admin")]
+
     public async Task<IActionResult> Edit(int id)
     {
         var manufacturer = await _manufacturerService.GetByIdAsync(id);
@@ -73,7 +69,6 @@ public class ManufacturerController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(int id, ManufacturerUpdateDto manufacturerDto)
     {
         if (ModelState.IsValid)
@@ -89,7 +84,6 @@ public class ManufacturerController : Controller
     }
 
    
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         var manufacturer = await _manufacturerService.GetByIdAsync(id);
@@ -102,7 +96,6 @@ public class ManufacturerController : Controller
 
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         await _manufacturerService.DeleteAsync(id);

@@ -22,14 +22,12 @@ public class CarEnginesController : Controller
 
     // ==================== MVC Views ====================
 
-    [Authorize(Roles = "User,Instructor,Admin")]
     public async Task<IActionResult> Index()
     {
         var carEngines = await _carEngineService.GetAllAsync();
         return View(carEngines);
     }
 
-    [Authorize(Roles = "User,Instructor,Admin")]
     public async Task<IActionResult> Details(int carId, int engineId)
     {
         var carEngine = await _carEngineService.GetCarEngineDetailsAsync(carId, engineId);
@@ -40,7 +38,6 @@ public class CarEnginesController : Controller
         return View(carEngine);
     }
 
-    [Authorize(Roles = "Instructor,Admin")]
     public async Task<IActionResult> Create()
     {
         var cars = await _carService.GetAllAsync();
@@ -52,7 +49,6 @@ public class CarEnginesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Instructor,Admin")]
     public async Task<IActionResult> Create(CarEngineCreateDto carEngineDto)
     {
         if (ModelState.IsValid)
@@ -67,7 +63,6 @@ public class CarEnginesController : Controller
         return View(carEngineDto);
     }
 
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(int carId, int engineId)
     {
         var carEngine = await _carEngineService.GetByIdAsync(carId, engineId);
@@ -91,7 +86,6 @@ public class CarEnginesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(int carId, int engineId, CarEngineUpdateDto carEngineDto)
     {
         if (ModelState.IsValid)
@@ -113,7 +107,6 @@ public class CarEnginesController : Controller
     }
 
   
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int carId, int engineId)
     {
         var carEngine = await _carEngineService.GetByIdAsync(carId, engineId);
