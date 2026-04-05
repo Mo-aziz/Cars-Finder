@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace WebApplication3.Controllers;
 
@@ -23,23 +23,46 @@ public class AuthController : ControllerBase
     {
         // For demo purposes, we'll use a simple validation
         // In a real application, you would validate against a database
+        string? role = null;
         if (model.Username == "admin" && model.Password == "password")
         {
-            var token = GenerateJwtToken(model.Username, "Admin");
-            return Ok(new { token = token, expires_in = 3600, role = "Admin" });
+            role = "Admin";
         }
         else if (model.Username == "user" && model.Password == "password")
         {
-            var token = GenerateJwtToken(model.Username, "User");
-            return Ok(new { token = token, expires_in = 3600, role = "User" });
+            role = "User";
         }
         else if (model.Username == "instructor" && model.Password == "password")
         {
-            var token = GenerateJwtToken(model.Username, "Instructor");
-            return Ok(new { token = token, expires_in = 3600, role = "Instructor" });
+            role = "Instructor";
+        }
+        else
+        {
+            return Unauthorized(new { message = "Invalid username or password" });
         }
 
-        return Unauthorized("Invalid username or password");
+        // Generate JWT token
+        var token = GenerateJwtToken(model.Username, role);
+
+        // Store JWT token in HTTP-only cookie
+        var isProduction = !HttpContext.RequestServices.GetService<IWebHostEnvironment>()?.IsDevelopment() ?? false;
+        Response.Cookies.Append("token", token, new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = isProduction,
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTimeOffset.UtcNow.AddHours(1)
+        });
+
+        return Ok(new { message = "Login successful", username = model.Username, role = role });
+    }
+
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        // Remove the JWT token from cookie
+        Response.Cookies.Delete("token");
+        return Ok(new { message = "Logout successful" });
     }
 
     [HttpPost("register")]
@@ -62,30 +85,29 @@ public class AuthController : ControllerBase
 
     private string GenerateJwtToken(string username, string role)
     {
-        var jwtSettings = _configuration.GetSection("JwtSettings");
-        var secretKey = jwtSettings["SecretKey"] ?? "YourSuperSecretKeyForJWTTokenGeneration123456789";
-        var key = Encoding.UTF8.GetBytes(secretKey);
+        var jwtKey = _configuration["Jwt:Key"] ?? "MySecretKeyForJWTAuthenticationThat32CharactersLongMinimum1234567890";
+        var jwtIssuer = _configuration["Jwt:Issuer"] ?? "WebApplication3";
+        var jwtAudience = _configuration["Jwt:Audience"] ?? "WebApplication3Users";
+        var key = Encoding.ASCII.GetBytes(jwtKey);
 
-        var claims = new[]
+        var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, username),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(ClaimTypes.Role, role),
-            new Claim(JwtRegisteredClaimNames.Name, username)
+            new Claim(ClaimTypes.NameIdentifier, username),
+            new Claim(ClaimTypes.Name, username),
+            new Claim(ClaimTypes.Role, role)
         };
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.UtcNow.AddMinutes(double.Parse(jwtSettings["ExpirationInMinutes"] ?? "60")),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
-            Issuer = jwtSettings["Issuer"],
-            Audience = jwtSettings["Audience"]
+            Expires = DateTime.UtcNow.AddHours(1),
+            Issuer = jwtIssuer,
+            Audience = jwtAudience,
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var token = tokenHandler.CreateToken(tokenDescriptor);
-
         return tokenHandler.WriteToken(token);
     }
 }

@@ -1,10 +1,10 @@
 # WebApplication3 - Car Management API
 
-A comprehensive ASP.NET Core Web API for managing cars, engines, manufacturers, and car profiles with JWT authentication, role-based authorization, and complete CRUD operations.
+A comprehensive ASP.NET Core Web API for managing cars, engines, manufacturers, and car profiles with cookie-based authentication, role-based authorization, and complete CRUD operations.
 
 ## Project Overview
 
-This is an enterprise-grade ASP.NET Core 8 Web API that demonstrates best practices for building secure, scalable web services. The project implements all required learning objectives including entity relationships, dependency injection, clean service layers, DTOs, validation, JWT authentication, role-based authorization, and query optimization.
+This is an enterprise-grade ASP.NET Core 8 Web API that demonstrates best practices for building secure, scalable web services. The project implements all required learning objectives including entity relationships, dependency injection, clean service layers, DTOs, validation, cookie-based authentication, role-based authorization, and query optimization.
 
 ## Key Features
 
@@ -16,7 +16,7 @@ This is an enterprise-grade ASP.NET Core 8 Web API that demonstrates best practi
 - **Car-Engine Relationships**: Many-to-many relationship with installation dates
 
 ### Advanced Features
-- **JWT Authentication**: Secure token-based authentication
+- **Hybrid JWT-in-Cookie Authentication**: JWT tokens stored in HTTP-only cookies for secure, stateless authentication
 - **Role-Based Authorization**: Admin, Instructor, and User roles
 - **Entity Framework Core**: With async database operations and automatic migrations
 - **DTO Pattern**: Separate data transfer objects for API requests/responses
@@ -43,9 +43,10 @@ This is an enterprise-grade ASP.NET Core 8 Web API that demonstrates best practi
 - **SQL Server**: Relational database management system (via Docker)
 
 ### Authentication & Security
-- **JWT (JSON Web Tokens)**: Stateless authentication mechanism that securely transmits claims between parties
-- **Microsoft.AspNetCore.Authentication.JwtBearer**: Validates JWT tokens in API requests
-- **System.IdentityModel.Tokens.Jwt**: Handles JWT token generation and parsing
+- **JWT Bearer Authentication**: Industry-standard JWT tokens for stateless authentication
+- **HTTP-Only Cookies**: JWT tokens stored in HTTP-only cookies to prevent XSS attacks
+- **Microsoft.AspNetCore.Authentication.JwtBearer**: Validates JWT tokens extracted from cookies in API requests
+- **Claims-Based Authorization**: User roles stored as claims within JWT tokens
 
 ### API Documentation
 - **Swagger/OpenAPI**: Tools for documenting and testing RESTful APIs with interactive UI
@@ -56,43 +57,44 @@ This is an enterprise-grade ASP.NET Core 8 Web API that demonstrates best practi
 ## API Endpoints
 
 ### Authentication
-- `POST /api/auth/login` - Get JWT token (username: admin, password: password for Admin role)
+- `POST /api/auth/login` - Login and set authentication cookie (username: admin, password: password for Admin role)
+- `POST /api/auth/logout` - Logout and clear authentication cookie
 - `POST /api/auth/register` - Register new user
 - `GET /api/auth/profile` - Get authenticated user profile [Authorize]
 
 ### Cars
-- `GET /api/car` - List all cars
-- `GET /api/car/{id}` - Get car details
-- `POST /api/car` - Create car [Authorize: Admin, Instructor]
-- `PUT /api/car/{id}` - Update car [Authorize: Admin, Instructor]
+- `GET /api/car` - List all cars [Authorize: User, Instructor, Admin]
+- `GET /api/car/{id}` - Get car details [Authorize: User, Instructor, Admin]
+- `POST /api/car` - Create car [Authorize: Instructor, Admin]
+- `PUT /api/car/{id}` - Update car [Authorize: Admin]
 - `DELETE /api/car/{id}` - Delete car [Authorize: Admin]
 
 ### Engines
-- `GET /api/engine` - List all engines
-- `GET /api/engine/{id}` - Get engine details
-- `POST /api/engine` - Create engine [Authorize: Admin, Instructor]
-- `PUT /api/engine/{id}` - Update engine [Authorize: Admin, Instructor]
+- `GET /api/engine` - List all engines [Authorize: User, Instructor, Admin]
+- `GET /api/engine/{id}` - Get engine details [Authorize: User, Instructor, Admin]
+- `POST /api/engine` - Create engine [Authorize: Instructor, Admin]
+- `PUT /api/engine/{id}` - Update engine [Authorize: Admin]
 - `DELETE /api/engine/{id}` - Delete engine [Authorize: Admin]
 
 ### Manufacturers
-- `GET /api/manufacturer` - List all manufacturers
-- `GET /api/manufacturer/{id}` - Get manufacturer details
-- `POST /api/manufacturer` - Create manufacturer [Authorize: Admin, Instructor]
-- `PUT /api/manufacturer/{id}` - Update manufacturer [Authorize: Admin, Instructor]
+- `GET /api/manufacturer` - List all manufacturers [Authorize: User, Instructor, Admin]
+- `GET /api/manufacturer/{id}` - Get manufacturer details [Authorize: User, Instructor, Admin]
+- `POST /api/manufacturer` - Create manufacturer [Authorize: Instructor, Admin]
+- `PUT /api/manufacturer/{id}` - Update manufacturer [Authorize: Admin]
 - `DELETE /api/manufacturer/{id}` - Delete manufacturer [Authorize: Admin]
 
 ### Car Profiles
-- `GET /api/carprofiles` - List all car profiles
-- `GET /api/carprofiles/{id}` - Get car profile details
-- `POST /api/carprofiles` - Create car profile [Authorize: Admin, Instructor]
-- `PUT /api/carprofiles/{id}` - Update car profile [Authorize: Admin, Instructor]
+- `GET /api/carprofiles` - List all car profiles [Authorize: User, Instructor, Admin]
+- `GET /api/carprofiles/{id}` - Get car profile details [Authorize: User, Instructor, Admin]
+- `POST /api/carprofiles` - Create car profile [Authorize: Instructor, Admin]
+- `PUT /api/carprofiles/{id}` - Update car profile [Authorize: Admin]
 - `DELETE /api/carprofiles/{id}` - Delete car profile [Authorize: Admin]
 
 ### Car-Engine Relationships
-- `GET /api/carengines` - List all car-engine relationships
-- `GET /api/carengines/{carId}/{engineId}` - Get specific relationship
-- `POST /api/carengines` - Create relationship [Authorize: Admin, Instructor]
-- `PUT /api/carengines/{carId}/{engineId}` - Update relationship [Authorize: Admin, Instructor]
+- `GET /api/carengines` - List all car-engine relationships [Authorize: User, Instructor, Admin]
+- `GET /api/carengines/{carId}/{engineId}` - Get specific relationship [Authorize: User, Instructor, Admin]
+- `POST /api/carengines` - Create relationship [Authorize: Instructor, Admin]
+- `PUT /api/carengines/{carId}/{engineId}` - Update relationship [Authorize: Admin]
 - `DELETE /api/carengines/{carId}/{engineId}` - Delete relationship [Authorize: Admin]
 
 ## Entity Relationships
@@ -134,29 +136,95 @@ public int Year { get; set; }
 
 Invalid requests return HTTP 400 with validation error details.
 
-## Authentication & Authorization
-
-### JWT Authentication Flow
-1. Client sends credentials to `/api/auth/login`
-2. Server validates credentials and generates JWT token containing claims (username, role, etc.)
-3. Client stores token and includes it in subsequent requests: `Authorization: Bearer {token}`
-4. Server validates token signature, expiration, and issuer before processing request
 
 ### Role-Based Authorization
 Three roles control access to endpoints:
-- **Admin**: Full access to all endpoints including delete operations
-- **Instructor**: Can create and update entities
-- **User**: Read-only access (default)
+- **Admin**: Full access to all endpoints (GET, POST, PUT, DELETE)
+- **Instructor**: Can read (GET) and create/update (POST, PUT) entities
+- **User**: Read-only access (GET only)
+
 
 Example:
 ```csharp
+[HttpPost("api/[controller]")]
 [Authorize(Roles = "Admin,Instructor")]
 public async Task<ActionResult<CarDetailsDto>> CreateApi([FromBody] CarCreateDto carDto)
+{
+    // Only Instructor and Admin can create
+}
+
+[HttpPut("api/[controller]/{id}")]
+[Authorize(Roles = "Admin")]
+public async Task<ActionResult<CarDetailsDto>> UpdateApi(int id, [FromBody] CarUpdateDto carDto)
+{
+    // Only Admin can update
+}
 ```
+
+### Test Credentials
+
+| Role | Username | Password |
+|------|----------|----------|
+| Admin | `admin` | `password` |
+| Instructor | `instructor` | `password` |
+| User | `user` | `password` |
+
+### API Error Responses
+
+- **401 Unauthorized**: User is not authenticated (no valid cookie)
+- **403 Forbidden**: User is authenticated but lacks required role for the endpoint
+
+## Hybrid JWT-in-Cookie Authentication
+
+This application uses a hybrid approach combining JWT tokens with HTTP-only cookies. This design provides the best of both worlds: stateless token-based authentication with XSS protection.
+
+### How It Works:
+1. Client sends credentials to `POST /api/auth/login`
+2. Server validates credentials and generates a JWT token containing user claims (username, role)
+3. JWT token is stored in an HTTP-only cookie and returned via `Set-Cookie` header
+4. Browser automatically includes the cookie in subsequent API requests
+5. Server extracts the JWT from the cookie header, validates the signature, and extracts claims
+6. User claims from the JWT are used for authorization decisions
+
+### Security Implementation:
+1. **Token Signing**: JWT tokens are signed using HMAC-SHA256 with a server secret
+2. **HTTP-Only Flag**: Cookies are marked `HttpOnly`, preventing JavaScript access
+3. **Secure Flag**: In production, cookies use `Secure` flag (HTTPS only)
+4. **SameSite Policy**: Cookies use `SameSite=Strict` to prevent CSRF attacks
+5. **Token Expiration**: JWT tokens expire after 1 hour (configurable in `appsettings.json`)
+6. **Signature Validation**: Server validates token signature on every request using the stored secret
+
+### Testing with Swagger:
+1. Navigate to `http://localhost:5000/swagger` to open Swagger UI
+2. Login via `POST /api/auth/login` with test credentials:
+   - **Admin**: username: `admin`, password: `password`
+   - **Instructor**: username: `instructor`, password: `password`
+   - **User**: username: `user`, password: `password`
+3. The server returns a response. The JWT token is automatically stored in an HTTP-only cookie by your browser
+4. All subsequent API requests automatically include the cookie with the JWT token
+5. Server validates the token signature and extracts claims for authorization
+6. Endpoints with role requirements will return:
+   - **200 OK**: If user has required role
+   - **403 Forbidden**: If user lacks required role
+   - **401 Unauthorized**: If token is missing or invalid
+
+### Manual Testing with Postman/cURL:
+While Postman can capture cookies, the HTTP-only flag makes it more secure:
+1. Send POST request to `http://localhost:5000/api/auth/login`:
+   ```json
+   {
+     "username": "admin",
+     "password": "password"
+   }
+   ```
+2. The response includes `Set-Cookie` header with JWT token in HTTP-only cookie
+3. Subsequent requests automatically include the cookie due to browser's same-origin policy
+4. For testing APIs programmatically, export cookies from Postman or use scripting tools that support cookies
+
 
 ## Why HTTP-Only Cookies are the Industry Standard for Authentication
 
-While this application uses JWT tokens in the Authorization header (suitable for API/SPA scenarios), HTTP-only cookies are widely preferred in traditional web applications for several critical security reasons:
+HTTP-only cookies are widely preferred in traditional web applications for several critical security reasons:
 
 ### Security Advantages of HTTP-Only Cookies:
 
@@ -182,13 +250,6 @@ While this application uses JWT tokens in the Authorization header (suitable for
 5. **Domain and Path Restrictions**
    - Cookies support domain and path scoping
    - Tokens can restrict where they're valid (though more limited than cookies)
-
-### When to Use Each:
-- **HTTP-Only Cookies**: Traditional web applications, server-rendered pages, maximum security
-- **JWT in Headers**: Single Page Applications (SPAs), mobile apps, cross-domain scenarios
-- **Hybrid Approach**: Use HTTP-only cookies for sensitive operations, JWT for API calls to third-party services
-
-This project uses JWT for instructional purposes (demonstrating token-based authentication), but production applications should evaluate using HTTP-only cookies for enhanced security, especially for web browser clients.
 
 ## Service Layer Architecture
 
@@ -258,7 +319,7 @@ Migrations track all schema changes and include seed data for demo purposes.
 ```
 WebApplication3/
 ├── Controllers/              # API and MVC endpoints
-│   ├── AuthController.cs     # JWT authentication endpoints
+│   ├── AuthController.cs     # Cookie authentication endpoints
 │   ├── CarController.cs      # Car CRUD endpoints
 │   ├── EngineController.cs   # Engine CRUD endpoints
 │   ├── ManufacturerController.cs
@@ -360,20 +421,9 @@ dotnet run
    - Username: `admin`, Password: `password` (Admin role)
    - Username: `user`, Password: `password` (User role)
    - Username: `instructor`, Password: `password` (Instructor role)
-5. Click "Execute", then Copy the returned `token` value
 
 
-
-### 3. Use Token in Requests
-
-**Swagger UI**:
-1. Click "Authorize" button
-2. Paste token: `Bearer {your_token_here}`
-3. Click "Authorize"
-4. All authenticated endpoints now work
-
-
-### 4. Test Endpoints
+### 3. Test Endpoints
 
 #### Create Car (requires Admin or Instructor)
 - **Endpoint**: `POST /api/car`
@@ -528,23 +578,25 @@ dotnet ef database update
 
 ## Screenshots
 - GET Manufacturer (Admin Role)
-![alt text](<Screenshot 2026-04-01 222610.png>)
+![alt text](<Screenshot 2026-04-05 204227.png>)
 - POST Manufacturer (Admin Role)
-![alt text](<Screenshot 2026-04-01 222758.png>)
+![alt text](<Screenshot 2026-04-05 204415.png>)
 - POST Car (Admin Role)
-![alt text](<Screenshot 2026-04-01 222959.png>)
+![alt text](<Screenshot 2026-04-05 204559.png>)
 - POST Car (Instructor Role)
-![alt text](<Screenshot 2026-04-01 235849.png>)
+![alt text](<Screenshot 2026-04-05 204919.png>)
 - GET Car (Admin Role)
-![alt text](<Screenshot 2026-04-01 223046.png>)
+![alt text](<Screenshot 2026-04-05 204143.png>)
 - PUT Car (Admin Role)
-![alt text](<Screenshot 2026-04-01 223412.png>)
+![alt text](<Screenshot 2026-04-05 204713.png>)
+- POST Engine(Instructor Role)
+![alt text](<Screenshot 2026-04-05 205052.png>)
 - PUT Engine (Instructor Role)
-![alt text](<Screenshot 2026-04-02 000215.png>)
+![alt text](<Screenshot 2026-04-05 205141.png>)
 - DELETE Car (Admin role)
-![alt text](<Screenshot 2026-04-01 223503.png>)
+![alt text](<Screenshot 2026-04-05 204821.png>)
 - DELETE Car (User role)
-![alt text](<Screenshot 2026-04-01 224631.png>)
+![alt text](<Screenshot 2026-04-05 204020.png>)
 
 ## Author
 
