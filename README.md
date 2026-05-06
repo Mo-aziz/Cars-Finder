@@ -616,7 +616,7 @@ The frontend is located in the `react-frontend/` folder and provides:
 ### Frontend Setup
 1. Open terminal in frontend folder:
    ```bash
-   cd ..\react-frontend
+   cd react-frontend
    ```
 2. Install dependencies:
    ```bash
