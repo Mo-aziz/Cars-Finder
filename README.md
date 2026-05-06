@@ -607,11 +607,12 @@ dotnet ef database update
 ## Frontend (React + Vite)
 
 ### Frontend Summary
-The frontend is located in the `react-frontend/` folder and provides:
+The React frontend is included in the `react-frontend/` subdirectory of this repository and provides:
 - Authentication screens (Login, Signup)
 - Protected pages for Cars, Manufacturers, Engines, Car Profiles, and Car Engines
 - Role-aware UI behavior for Admin, Instructor/Employee, and User
 - Axios-based API integration with cookie credentials enabled
+- Complete source code for all React components, services, and utilities
 
 ### Frontend Setup
 1. Open terminal in frontend folder:
