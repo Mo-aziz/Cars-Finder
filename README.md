@@ -317,70 +317,142 @@ Migrations track all schema changes and include seed data for demo purposes.
 ## Project Structure
 
 ```
-WebApplication3/
-├── Controllers/              # API endpoints
-│   ├── AuthController.cs     # JWT authentication endpoints
-│   ├── CarController.cs      # Car CRUD endpoints
-│   ├── CarEnginesController.cs
-│   ├── CarProfilesController.cs
-│   ├── EngineController.cs   # Engine CRUD endpoints
-│   ├── ManufacturerController.cs
-│   ├── AccountController.cs
-│   └── HomeController.cs
-├── Models/                   # Entity classes
-│   ├── Car.cs
-│   ├── CarEngine.cs
-│   ├── CarProfile.cs
-│   ├── Engine.cs
-│   ├── Manufacturer.cs
-│   └── User.cs
-├── DTOs/                     # Data Transfer Objects
-│   ├── CarCreateDto.cs
-│   ├── CarUpdateDto.cs
-│   ├── CarListDto.cs
-│   ├── CarDetailsDto.cs
-│   ├── CarEngineCreateDto.cs
-│   ├── CarEngineDetailsDto.cs
-│   ├── CarEngineListDto.cs
-│   ├── CarEngineUpdateDto.cs
-│   ├── CarProfileCreateDto.cs
-│   ├── CarProfileDetailsDto.cs
-│   ├── CarProfileListDto.cs
-│   ├── CarProfileUpdateDto.cs
-│   ├── EngineCreateDto.cs
-│   ├── EngineDetailsDto.cs
-│   ├── EngineListDto.cs
-│   ├── EngineUpdateDto.cs
-│   ├── ManufacturerCreateDto.cs
-│   ├── ManufacturerDetailsDto.cs
-│   ├── ManufacturerListDto.cs
-│   └── ManufacturerUpdateDto.cs
-├── Services/                 # Business logic
-│   ├── CarService.cs
-│   ├── CarEngineService.cs
-│   ├── CarProfileService.cs
-│   ├── EngineService.cs
-│   ├── ManufacturerService.cs
-│   └── ... (other services)
-├── Interfaces/               # Service contracts
-│   ├── ICarService.cs
-│   ├── ICarEngineService.cs
-│   ├── ICarProfileService.cs
-│   ├── IEngineService.cs
-│   └── IManufacturerService.cs
-├── Data/
-│   └── ApplicationDbContext.cs  # EF Core DbContext
-├── Migrations/               # Database schema migrations
-│   └── ... (EF Core migration files)
-├── Properties/
-│   └── launchSettings.json   # Launch configuration
-├── Utilities/
-│   └── PasswordHasher.cs     # Password hashing utility
-├── wwwroot/                  # Static files
-├── Program.cs                # Application startup configuration
-├── appsettings.json          # Configuration and connection strings
-├── docker-compose.yml        # Docker SQL Server configuration
-└── WebApplication3.csproj    # Project file
+Cars-Finder/
+├── WebApplication3/                    # Backend ASP.NET Core API
+│   ├── Controllers/                   # API endpoints
+│   │   ├── AuthController.cs          # JWT authentication endpoints
+│   │   ├── CarController.cs           # Car CRUD endpoints
+│   │   ├── CarEnginesController.cs
+│   │   ├── CarProfilesController.cs
+│   │   ├── EngineController.cs        # Engine CRUD endpoints
+│   │   ├── ManufacturerController.cs
+│   │   ├── AccountController.cs
+│   │   └── HomeController.cs
+│   ├── Models/                        # Entity classes
+│   │   ├── Car.cs
+│   │   ├── CarEngine.cs
+│   │   ├── CarProfile.cs
+│   │   ├── Engine.cs
+│   │   ├── Manufacturer.cs
+│   │   └── User.cs
+│   ├── DTOs/                          # Data Transfer Objects (24 files)
+│   │   ├── CarCreateDto.cs
+│   │   ├── CarUpdateDto.cs
+│   │   ├── CarListDto.cs
+│   │   ├── CarDetailsDto.cs
+│   │   ├── CarEngineCreateDto.cs
+│   │   ├── CarEngineDetailsDto.cs
+│   │   ├── CarEngineListDto.cs
+│   │   ├── CarEngineUpdateDto.cs
+│   │   ├── CarProfileCreateDto.cs
+│   │   ├── CarProfileDetailsDto.cs
+│   │   ├── CarProfileListDto.cs
+│   │   ├── CarProfileUpdateDto.cs
+│   │   ├── EngineCreateDto.cs
+│   │   ├── EngineDetailsDto.cs
+│   │   ├── EngineListDto.cs
+│   │   ├── EngineUpdateDto.cs
+│   │   ├── ManufacturerCreateDto.cs
+│   │   ├── ManufacturerDetailsDto.cs
+│   │   ├── ManufacturerListDto.cs
+│   │   └── ManufacturerUpdateDto.cs
+│   ├── Services/                      # Business logic layer
+│   │   ├── CarService.cs
+│   │   ├── CarEngineService.cs
+│   │   ├── CarProfileService.cs
+│   │   ├── EngineService.cs
+│   │   └── ManufacturerService.cs
+│   ├── Interfaces/                    # Service contracts
+│   │   ├── ICarService.cs
+│   │   ├── ICarEngineService.cs
+│   │   ├── ICarProfileService.cs
+│   │   ├── IEngineService.cs
+│   │   └── IManufacturerService.cs
+│   ├── Data/
+│   │   └── ApplicationDbContext.cs    # EF Core DbContext
+│   ├── Migrations/                    # Database schema migrations
+│   │   ├── 20260324104317_InitialCreate.cs
+│   │   ├── 20260428155043_AddUserAuthentication.cs
+│   │   └── 20260502192738_AddCarProfilePhotoUrl.cs
+│   ├── Properties/
+│   │   └── launchSettings.json        # Launch configuration
+│   ├── Utilities/
+│   │   └── PasswordHasher.cs          # Password hashing utility
+│   ├── wwwroot/                       # Static files
+│   ├── bin/                           # Build output
+│   ├── obj/                           # Build intermediate files
+│   ├── Program.cs                     # Application startup configuration
+│   ├── appsettings.json               # Configuration and connection strings
+│   ├── docker-compose.yml             # Docker SQL Server configuration
+│   ├── WebApplication3.csproj         # Project file
+│   └── README.md                      # Backend documentation
+│
+├── react-frontend/                     # Frontend React + Vite application
+│   ├── src/
+│   │   ├── components/                # Reusable React components
+│   │   │   ├── Alert.jsx
+│   │   │   ├── Loading.jsx
+│   │   │   └── Navigation.jsx
+│   │   ├── pages/                     # Page components
+│   │   │   ├── LoginPage.jsx
+│   │   │   ├── SignupPage.jsx
+│   │   │   ├── HomePage.jsx
+│   │   │   ├── CarsPage.jsx
+│   │   │   ├── CarDetailsPage.jsx
+│   │   │   ├── CarCreatePage.jsx
+│   │   │   ├── CarEditPage.jsx
+│   │   │   ├── ManufacturersPage.jsx
+│   │   │   ├── ManufacturerDetailsPage.jsx
+│   │   │   ├── ManufacturerCreatePage.jsx
+│   │   │   ├── ManufacturerEditPage.jsx
+│   │   │   ├── EnginesPage.jsx
+│   │   │   ├── EngineDetailsPage.jsx
+│   │   │   ├── EngineCreatePage.jsx
+│   │   │   ├── EngineEditPage.jsx
+│   │   │   ├── CarProfilesPage.jsx
+│   │   │   ├── CarProfileDetailsPage.jsx
+│   │   │   ├── CarProfileCreatePage.jsx
+│   │   │   ├── CarProfileEditPage.jsx
+│   │   │   ├── CarEnginesPage.jsx
+│   │   │   ├── CarEngineDetailsPage.jsx
+│   │   │   ├── CarEngineCreatePage.jsx
+│   │   │   └── CarEngineEditPage.jsx
+│   │   ├── services/                  # API service layer
+│   │   │   ├── api.js                 # Axios instance with credentials
+│   │   │   ├── authService.js         # Authentication API calls
+│   │   │   ├── carService.js          # Car API calls
+│   │   │   ├── manufacturerService.js # Manufacturer API calls
+│   │   │   ├── engineService.js       # Engine API calls
+│   │   │   ├── carProfileService.js   # Car Profile API calls
+│   │   │   └── carEngineService.js    # Car-Engine relationship API calls
+│   │   ├── context/
+│   │   │   └── AuthContext.jsx        # Authentication context provider
+│   │   ├── hooks/                     # Custom React hooks
+│   │   │   ├── useTokenAutoRefresh.js # Auto token refresh hook
+│   │   │   └── useTokenRefresh.js     # Token refresh logic
+│   │   ├── App.jsx                    # Main app component with routing
+│   │   ├── main.jsx                   # React entry point
+│   │   └── index.css                  # Global styles with Tailwind
+│   ├── public/                        # Static assets
+│   │   ├── index.html
+│   │   └── default-car.svg
+│   ├── index.html                     # HTML template
+│   ├── package.json                   # NPM dependencies and scripts
+│   ├── package-lock.json              # Dependency lock file
+│   ├── vite.config.js                 # Vite configuration
+│   ├── tailwind.config.js             # Tailwind CSS configuration
+│   ├── postcss.config.js              # PostCSS configuration
+│   ├── tsconfig.json                  # TypeScript config (JSX)
+│   ├── tsconfig.node.json             # TypeScript config for Node
+│   ├── .gitignore                     # Frontend Git ignore rules
+│   ├── .env.example                   # Environment variables template
+│   ├── README.md                      # Frontend documentation
+│   ├── QUICKSTART.md                  # Quick start guide
+│   └── SUMMARY.md                     # Project summary
+│
+├── .gitignore                         # Repository-wide Git ignore rules
+├── README.md                          # Main project documentation
+└── LICENSE                            # Project license
 ```
 
 ## Getting Started
