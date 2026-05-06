@@ -318,41 +318,69 @@ Migrations track all schema changes and include seed data for demo purposes.
 
 ```
 WebApplication3/
-├── Controllers/              # API and MVC endpoints
-│   ├── AuthController.cs     # Cookie authentication endpoints
+├── Controllers/              # API endpoints
+│   ├── AuthController.cs     # JWT authentication endpoints
 │   ├── CarController.cs      # Car CRUD endpoints
+│   ├── CarEnginesController.cs
+│   ├── CarProfilesController.cs
 │   ├── EngineController.cs   # Engine CRUD endpoints
 │   ├── ManufacturerController.cs
-│   ├── CarProfilesController.cs
-│   └── CarEnginesController.cs
+│   ├── AccountController.cs
+│   └── HomeController.cs
 ├── Models/                   # Entity classes
 │   ├── Car.cs
+│   ├── CarEngine.cs
+│   ├── CarProfile.cs
 │   ├── Engine.cs
 │   ├── Manufacturer.cs
-│   ├── CarProfile.cs
-│   └── CarEngine.cs
+│   └── User.cs
 ├── DTOs/                     # Data Transfer Objects
 │   ├── CarCreateDto.cs
 │   ├── CarUpdateDto.cs
 │   ├── CarListDto.cs
 │   ├── CarDetailsDto.cs
-│   └── ... (other DTOs)
+│   ├── CarEngineCreateDto.cs
+│   ├── CarEngineDetailsDto.cs
+│   ├── CarEngineListDto.cs
+│   ├── CarEngineUpdateDto.cs
+│   ├── CarProfileCreateDto.cs
+│   ├── CarProfileDetailsDto.cs
+│   ├── CarProfileListDto.cs
+│   ├── CarProfileUpdateDto.cs
+│   ├── EngineCreateDto.cs
+│   ├── EngineDetailsDto.cs
+│   ├── EngineListDto.cs
+│   ├── EngineUpdateDto.cs
+│   ├── ManufacturerCreateDto.cs
+│   ├── ManufacturerDetailsDto.cs
+│   ├── ManufacturerListDto.cs
+│   └── ManufacturerUpdateDto.cs
 ├── Services/                 # Business logic
 │   ├── CarService.cs
+│   ├── CarEngineService.cs
+│   ├── CarProfileService.cs
 │   ├── EngineService.cs
 │   ├── ManufacturerService.cs
 │   └── ... (other services)
 ├── Interfaces/               # Service contracts
 │   ├── ICarService.cs
+│   ├── ICarEngineService.cs
+│   ├── ICarProfileService.cs
 │   ├── IEngineService.cs
-│   └── ... (other interfaces)
+│   └── IManufacturerService.cs
 ├── Data/
 │   └── ApplicationDbContext.cs  # EF Core DbContext
 ├── Migrations/               # Database schema migrations
-├── Views/                    # MVC views (optional)
+│   └── ... (EF Core migration files)
+├── Properties/
+│   └── launchSettings.json   # Launch configuration
+├── Utilities/
+│   └── PasswordHasher.cs     # Password hashing utility
+├── wwwroot/                  # Static files
 ├── Program.cs                # Application startup configuration
-├── appsettings.json          # Configuration file
-└── docker-compose.yml        # Docker configuration
+├── appsettings.json          # Configuration and connection strings
+├── docker-compose.yml        # Docker SQL Server configuration
+└── WebApplication3.csproj    # Project file
 ```
 
 ## Getting Started
@@ -576,7 +604,98 @@ dotnet ef database update
 - Swagger API documentation
 - HTTP-only cookies explanation
 
-## Screenshots
+## Frontend (React + Vite)
+
+### Frontend Summary
+The frontend is located in the `react-frontend/` folder and provides:
+- Authentication screens (Login, Signup)
+- Protected pages for Cars, Manufacturers, Engines, Car Profiles, and Car Engines
+- Role-aware UI behavior for Admin, Instructor/Employee, and User
+- Axios-based API integration with cookie credentials enabled
+
+### Frontend Setup
+1. Open terminal in frontend folder:
+   ```bash
+   cd ..\react-frontend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. (Optional) create `.env`:
+   ```bash
+   VITE_API_URL=http://localhost:5000/api
+   ```
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+Frontend URL:
+- `http://localhost:5173`
+
+### API Routes Used By Frontend
+Base path: `/api`
+
+Authentication:
+- `POST /auth/login`
+- `POST /auth/signup`
+- `POST /auth/refresh-token`
+
+Cars:
+- `GET /car`
+- `GET /car/{id}`
+- `POST /car`
+- `PUT /car/{id}`
+- `DELETE /car/{id}`
+
+Manufacturers:
+- `GET /manufacturer`
+- `GET /manufacturer/{id}`
+- `POST /manufacturer`
+- `PUT /manufacturer/{id}`
+- `DELETE /manufacturer/{id}`
+
+Engines:
+- `GET /engine`
+- `GET /engine/{id}`
+- `POST /engine`
+- `PUT /engine/{id}`
+- `DELETE /engine/{id}`
+
+Car Profiles:
+- `GET /carprofiles`
+- `GET /carprofiles/{id}`
+- `POST /carprofiles`
+- `POST /carprofiles/upload-photo`
+- `PUT /carprofiles/{id}`
+- `DELETE /carprofiles/{id}`
+
+Car Engines:
+- `GET /carengines`
+- `GET /carengines/{carId}/{engineId}`
+- `POST /carengines`
+- `PUT /carengines/{carId}/{engineId}`
+- `DELETE /carengines/{carId}/{engineId}`
+## Frontend Screenshots
+- Login page 
+![alt text](<Screenshot 2026-05-06 111344.png>)
+- Signup page
+![alt text](<Screenshot 2026-05-06 111430.png>)
+- Home page 
+![alt text](<Screenshot 2026-05-06 110841.png>)
+- Cars page
+![alt text](<Screenshot 2026-05-06 110852.png>)
+- Manufacturers page 
+![alt text](<Screenshot 2026-05-06 110900.png>)
+- Engines page
+![alt text](<Screenshot 2026-05-06 110907.png>)
+- Car profiles page
+![alt text](<Screenshot 2026-05-06 110915.png>)
+- Car Engines page
+![alt text](<Screenshot 2026-05-06 110922.png>)
+
+## Backend Screenshots
 - GET Manufacturer (Admin Role)
 ![alt text](<Screenshot 2026-04-05 204227.png>)
 - POST Manufacturer (Admin Role)
