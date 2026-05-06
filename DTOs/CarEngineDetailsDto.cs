@@ -13,4 +13,5 @@ public class CarEngineDetailsDto
     public int EngineHorsePower { get; set; }
     public string? EngineFuelType { get; set; }
     public decimal? EngineDisplacement { get; set; }
+    public string CarName => $"{CarBrand} {CarModel}";
 }

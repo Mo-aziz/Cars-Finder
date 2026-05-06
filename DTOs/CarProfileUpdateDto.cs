@@ -15,4 +15,7 @@ public class CarProfileUpdateDto
     
     [StringLength(1000)]
     public string? Description { get; set; }
+
+    [StringLength(2048)]
+    public string? PhotoUrl { get; set; }
 }

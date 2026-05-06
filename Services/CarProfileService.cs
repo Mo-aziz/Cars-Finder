@@ -25,6 +25,7 @@ public class CarProfileService : ICarProfileService
                 CarId = cp.CarId,
                 Color = cp.Color,
                 Price = cp.Price,
+                PhotoUrl = cp.PhotoUrl,
                 CarBrand = cp.Car != null ? cp.Car.Brand : "Unknown",
                 CarModel = cp.Car != null ? cp.Car.Model : "Unknown"
             })
@@ -44,6 +45,7 @@ public class CarProfileService : ICarProfileService
                 Color = cp.Color,
                 Price = cp.Price,
                 Description = cp.Description,
+                PhotoUrl = cp.PhotoUrl,
                 CarBrand = cp.Car != null ? cp.Car.Brand : "Unknown",
                 CarModel = cp.Car != null ? cp.Car.Model : "Unknown",
                 CarYear = cp.Car != null ? cp.Car.Year : 0
@@ -63,8 +65,9 @@ public class CarProfileService : ICarProfileService
         {
             CarId = carProfileDto.CarId,
             Color = carProfileDto.Color,
-            Price = carProfileDto.Price,
-            Description = carProfileDto.Description
+            Price = carProfileDto.Price ?? 0m,
+            Description = carProfileDto.Description,
+            PhotoUrl = carProfileDto.PhotoUrl
         };
 
         _context.CarProfiles.Add(carProfile);
@@ -81,6 +84,7 @@ public class CarProfileService : ICarProfileService
             carProfile.Color = carProfileDto.Color;
             carProfile.Price = carProfileDto.Price;
             carProfile.Description = carProfileDto.Description;
+            carProfile.PhotoUrl = carProfileDto.PhotoUrl;
             
             _context.CarProfiles.Update(carProfile);
             await _context.SaveChangesAsync();

@@ -8,4 +8,5 @@ public class CarEngineListDto
     public string CarBrand { get; set; } = string.Empty;
     public string CarModel { get; set; } = string.Empty;
     public string EngineType { get; set; } = string.Empty;
+    public string CarName => $"{CarBrand} {CarModel}";
 }

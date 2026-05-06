@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using WebApplication3.Interfaces;
 
 namespace WebApplication3.Controllers;
@@ -25,6 +26,7 @@ public class HomeController : Controller
         _carEngineService = carEngineService;
     }
 
+    [Authorize]
     public async Task<IActionResult> Index()
     {
         var cars = await _carService.GetAllAsync();

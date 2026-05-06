@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplication3.Models;
+using WebApplication3.Utilities;
 
 namespace WebApplication3.Data;
 
@@ -14,6 +15,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Engine> Engines { get; set; }
     public DbSet<CarProfile> CarProfiles { get; set; }
     public DbSet<CarEngine> CarEngines { get; set; }
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -64,6 +66,34 @@ public class ApplicationDbContext : DbContext
             new Engine { Id = 1, Type = "V6", HorsePower = 301 },
             new Engine { Id = 2, Type = "V8", HorsePower = 450 },
             new Engine { Id = 3, Type = "Inline-6", HorsePower = 335 }
+        );
+
+        // Seed data for Users with hashed passwords
+        modelBuilder.Entity<User>().HasData(
+            new User 
+            { 
+                Id = 1, 
+                Username = "admin", 
+                PasswordHash = PasswordHasher.Hash("password"),
+                Role = "Admin",
+                CreatedAt = DateTime.UtcNow
+            },
+            new User 
+            { 
+                Id = 2, 
+                Username = "user", 
+                PasswordHash = PasswordHasher.Hash("password"),
+                Role = "User",
+                CreatedAt = DateTime.UtcNow
+            },
+            new User 
+            { 
+                Id = 3, 
+                Username = "employee", 
+                PasswordHash = PasswordHasher.Hash("password"),
+                Role = "Employee",
+                CreatedAt = DateTime.UtcNow
+            }
         );
     }
 }

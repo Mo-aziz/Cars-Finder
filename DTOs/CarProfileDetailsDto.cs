@@ -7,7 +7,9 @@ public class CarProfileDetailsDto
     public string? Color { get; set; }
     public decimal Price { get; set; }
     public string? Description { get; set; }
+    public string? PhotoUrl { get; set; }
     public string CarBrand { get; set; } = string.Empty;
     public string CarModel { get; set; } = string.Empty;
     public int CarYear { get; set; }
+    public string CarName => $"{CarBrand} {CarModel}";
 }

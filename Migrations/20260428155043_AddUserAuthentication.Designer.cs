@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication3.Data;
 
@@ -11,9 +12,11 @@ using WebApplication3.Data;
 namespace WebApplication3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260428155043_AddUserAuthentication")]
+    partial class AddUserAuthentication
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,10 +122,6 @@ namespace WebApplication3.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("PhotoUrl")
-                        .HasMaxLength(2048)
-                        .HasColumnType("nvarchar(2048)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)");
@@ -258,26 +257,26 @@ namespace WebApplication3.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 5, 2, 19, 27, 38, 82, DateTimeKind.Utc).AddTicks(3739),
-                            PasswordHash = "a4+JtrpJ1dKRSJ5okmIow6U3nA9P3Ow54//SXIMvkFyWJt2X",
+                            CreatedAt = new DateTime(2026, 4, 28, 15, 50, 43, 332, DateTimeKind.Utc).AddTicks(8122),
+                            PasswordHash = "9XdKXC++IPPDQs7F773bZsBaGIr3WO79IqIKbyR8Fv0MDJTa",
                             Role = "Admin",
                             Username = "admin"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2026, 5, 2, 19, 27, 38, 84, DateTimeKind.Utc).AddTicks(5116),
-                            PasswordHash = "oQnaWgywlzmoGZwwf9n7RlScrvW+DN4rgHmlkubeu2i1wey3",
+                            CreatedAt = new DateTime(2026, 4, 28, 15, 50, 43, 334, DateTimeKind.Utc).AddTicks(3076),
+                            PasswordHash = "/yUi1cQPSZnu3uWtnBsfOov6q4r7IFgrbhg0CxkW4euyPpYe",
                             Role = "User",
                             Username = "user"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2026, 5, 2, 19, 27, 38, 86, DateTimeKind.Utc).AddTicks(8063),
-                            PasswordHash = "tDhk97oG1yIO+3eLLdUEyk91zmSucYhhUN4k0+hxMboUn9DW",
-                            Role = "Employee",
-                            Username = "employee"
+                            CreatedAt = new DateTime(2026, 4, 28, 15, 50, 43, 335, DateTimeKind.Utc).AddTicks(7964),
+                            PasswordHash = "r3XYi3XBVVb1ijSC0Dqw4Vxh7MhnTujhmyVu0Uz8T4B5pnJW",
+                            Role = "Instructor",
+                            Username = "instructor"
                         });
                 });
 

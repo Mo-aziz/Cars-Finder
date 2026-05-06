@@ -6,6 +6,8 @@ public class CarProfileListDto
     public int CarId { get; set; }
     public string? Color { get; set; }
     public decimal Price { get; set; }
+    public string? PhotoUrl { get; set; }
     public string CarBrand { get; set; } = string.Empty;
     public string CarModel { get; set; } = string.Empty;
+    public string CarName => $"{CarBrand} {CarModel}";
 }

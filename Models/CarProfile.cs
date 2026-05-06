@@ -16,6 +16,9 @@ public class CarProfile
     
     [StringLength(1000)]
     public string? Description { get; set; }
+
+    [StringLength(2048)]
+    public string? PhotoUrl { get; set; }
     
     // Navigation properties
     public virtual Car? Car { get; set; }

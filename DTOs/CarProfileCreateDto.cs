@@ -11,8 +11,11 @@ public class CarProfileCreateDto
     public string? Color { get; set; }
     
     [Range(0, 999999.99)]
-    public decimal Price { get; set; }
+    public decimal? Price { get; set; }
     
     [StringLength(1000)]
     public string? Description { get; set; }
+
+    [StringLength(2048)]
+    public string? PhotoUrl { get; set; }
 }
