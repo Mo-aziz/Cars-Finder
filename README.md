@@ -493,7 +493,7 @@ Cars-Finder/
 
 5. **Access the application**:
    - API Swagger UI: http://localhost:5000/swagger
-   - MVC Views: http://localhost:5000/
+
 
 ### Database Seeding
 
@@ -705,7 +705,7 @@ The React frontend is included in the `react-frontend/` subdirectory of this rep
    ```
 
 Frontend URL:
-- `http://localhost:5173`
+- `http://localhost:3000`
 
 ### API Routes Used By Frontend
 Base path: `/api`
