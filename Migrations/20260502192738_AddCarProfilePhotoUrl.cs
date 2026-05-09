@@ -66,7 +66,7 @@ namespace WebApplication3.Migrations
                 keyColumn: "Id",
                 keyValue: 3,
                 columns: new[] { "CreatedAt", "PasswordHash", "Role", "Username" },
-                values: new object[] { new DateTime(2026, 4, 28, 15, 50, 43, 335, DateTimeKind.Utc).AddTicks(7964), "r3XYi3XBVVb1ijSC0Dqw4Vxh7MhnTujhmyVu0Uz8T4B5pnJW", "Instructor", "instructor" });
+                values: new object[] { new DateTime(2026, 4, 28, 15, 50, 43, 335, DateTimeKind.Utc).AddTicks(7964), "r3XYi3XBVVb1ijSC0Dqw4Vxh7MhnTujhmyVu0Uz8T4B5pnJW", "Employee", "employee" });
         }
     }
 }

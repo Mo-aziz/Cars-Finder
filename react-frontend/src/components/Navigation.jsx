@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const Navigation = () => {
   const { user, logout, isAuthenticated } = useAuth()
-  const displayRole = user?.role === 'Instructor' ? 'Employee' : user?.role
+  const displayRole = user?.role
 
   const handleSwaggerClick = () => {
     window.open('http://localhost:5000/swagger', '_blank')

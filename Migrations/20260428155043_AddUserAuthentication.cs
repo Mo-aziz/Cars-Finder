@@ -36,7 +36,7 @@ namespace WebApplication3.Migrations
                 {
                     { 1, new DateTime(2026, 4, 28, 15, 50, 43, 332, DateTimeKind.Utc).AddTicks(8122), "9XdKXC++IPPDQs7F773bZsBaGIr3WO79IqIKbyR8Fv0MDJTa", "Admin", "admin" },
                     { 2, new DateTime(2026, 4, 28, 15, 50, 43, 334, DateTimeKind.Utc).AddTicks(3076), "/yUi1cQPSZnu3uWtnBsfOov6q4r7IFgrbhg0CxkW4euyPpYe", "User", "user" },
-                    { 3, new DateTime(2026, 4, 28, 15, 50, 43, 335, DateTimeKind.Utc).AddTicks(7964), "r3XYi3XBVVb1ijSC0Dqw4Vxh7MhnTujhmyVu0Uz8T4B5pnJW", "Instructor", "instructor" }
+                    { 3, new DateTime(2026, 4, 28, 15, 50, 43, 335, DateTimeKind.Utc).AddTicks(7964), "r3XYi3XBVVb1ijSC0Dqw4Vxh7MhnTujhmyVu0Uz8T4B5pnJW", "Employee", "employee" }
                 });
         }
 

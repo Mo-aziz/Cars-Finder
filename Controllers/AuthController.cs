@@ -75,10 +75,10 @@ public class AuthController : ControllerBase
         }
 
         // Validate role
-        var validRoles = new[] { "Admin", "Instructor", "User" };
+        var validRoles = new[] { "Admin", "Employee", "User" };
         if (!validRoles.Contains(model.Role))
         {
-            return BadRequest(new { message = "Invalid role. Must be Admin, Instructor, or User" });
+            return BadRequest(new { message = "Invalid role. Must be Admin, Employee, or User" });
         }
 
         // Create new user with hashed password

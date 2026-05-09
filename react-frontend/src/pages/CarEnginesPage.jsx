@@ -10,7 +10,7 @@ const CarEnginesPage = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
-  const { isAdmin, isInstructor } = useAuth()
+  const { isAdmin, isEmployee } = useAuth()
 
   useEffect(() => {
     fetchCarEngines()
@@ -47,7 +47,7 @@ const CarEnginesPage = () => {
     <div className="container">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-4xl font-bold">Car Engines</h1>
-        {(isAdmin || isInstructor) && (
+        {(isAdmin || isEmployee) && (
           <Link to="/car-engines/new" className="btn-primary">
             Add Car Engine
           </Link>

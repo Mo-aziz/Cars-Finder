@@ -10,7 +10,7 @@ const ManufacturersPage = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
-  const { isAdmin, isInstructor } = useAuth()
+  const { isAdmin, isEmployee } = useAuth()
 
   useEffect(() => {
     fetchManufacturers()
@@ -47,7 +47,7 @@ const ManufacturersPage = () => {
     <div className="container">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-4xl font-bold">Manufacturers</h1>
-        {(isAdmin || isInstructor) && (
+        {(isAdmin || isEmployee) && (
           <Link to="/manufacturers/new" className="btn-primary">
             Add Manufacturer
           </Link>

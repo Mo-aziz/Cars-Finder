@@ -20,7 +20,7 @@ public class ManufacturerController : Controller
     // ==================== API Endpoints ====================
 
     [HttpGet]
-    [Authorize(Roles = "User,Instructor,Admin")]
+    [Authorize(Roles = "User,Employee,Admin")]
     public async Task<ActionResult<IEnumerable<ManufacturerListDto>>> GetAllApi()
     {
         var manufacturers = await _manufacturerService.GetAllAsync();
@@ -28,7 +28,7 @@ public class ManufacturerController : Controller
     }
 
     [HttpGet("{id}")]
-    [Authorize(Roles = "User,Instructor,Admin")]
+    [Authorize(Roles = "User,Employee,Admin")]
     public async Task<ActionResult<ManufacturerDetailsDto>> GetByIdApi(int id)
     {
         var manufacturer = await _manufacturerService.GetByIdAsync(id);
@@ -40,7 +40,7 @@ public class ManufacturerController : Controller
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin,Instructor")]
+    [Authorize(Roles = "Admin,Employee")]
     public async Task<ActionResult<ManufacturerDetailsDto>> CreateApi([FromBody] ManufacturerCreateDto manufacturerDto)
     {
         if (!ModelState.IsValid)

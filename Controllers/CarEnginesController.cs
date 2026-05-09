@@ -24,7 +24,7 @@ public class CarEnginesController : Controller
     // ==================== API Endpoints ====================
 
     [HttpGet]
-    [Authorize(Roles = "User,Instructor,Admin")]
+    [Authorize(Roles = "User,Employee,Admin")]
     public async Task<ActionResult<IEnumerable<CarEngineListDto>>> GetAllApi()
     {
         var carEngines = await _carEngineService.GetAllAsync();
@@ -32,7 +32,7 @@ public class CarEnginesController : Controller
     }
 
     [HttpGet("{carId}/{engineId}")]
-    [Authorize(Roles = "User,Instructor,Admin")]
+    [Authorize(Roles = "User,Employee,Admin")]
     public async Task<ActionResult<CarEngineDetailsDto>> GetByIdApi(int carId, int engineId)
     {
         var carEngine = await _carEngineService.GetByIdAsync(carId, engineId);
@@ -44,7 +44,7 @@ public class CarEnginesController : Controller
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin,Instructor")]
+    [Authorize(Roles = "Admin,Employee")]
     public async Task<ActionResult<CarEngineDetailsDto>> CreateApi([FromBody] CarEngineCreateDto carEngineDto)
     {
         if (!ModelState.IsValid)

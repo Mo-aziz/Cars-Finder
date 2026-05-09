@@ -123,7 +123,7 @@ public class AccountController : Controller
             role = "User";
         }
 
-        var validRoles = new[] { "Admin", "Instructor", "User" };
+        var validRoles = new[] { "Admin", "Employee", "User" };
         if (!validRoles.Contains(role))
         {
             ViewBag.Error = "Invalid role selected";

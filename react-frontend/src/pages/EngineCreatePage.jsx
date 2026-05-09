@@ -11,15 +11,15 @@ const EngineCreatePage = () => {
   })
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  const { isAdmin, isInstructor } = useAuth()
+  const { isAdmin, isEmployee } = useAuth()
   const navigate = useNavigate()
 
   // Check authorization
   useEffect(() => {
-    if (!isAdmin && !isInstructor) {
+    if (!isAdmin && !isEmployee) {
       navigate('/engines')
     }
-  }, [isAdmin, isInstructor, navigate])
+  }, [isAdmin, isEmployee, navigate])
 
   const handleChange = (e) => {
     const { name, value } = e.target

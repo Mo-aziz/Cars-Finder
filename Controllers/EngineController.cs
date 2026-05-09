@@ -20,7 +20,7 @@ public class EngineController : Controller
     // ==================== API Endpoints ====================
 
     [HttpGet]
-    [Authorize(Roles = "User,Instructor,Admin")]
+    [Authorize(Roles = "User,Employee,Admin")]
     public async Task<ActionResult<IEnumerable<EngineListDto>>> GetAllApi()
     {
         var engines = await _engineService.GetAllAsync();
@@ -28,7 +28,7 @@ public class EngineController : Controller
     }
 
     [HttpGet("{id}")]
-    [Authorize(Roles = "User,Instructor,Admin")]
+    [Authorize(Roles = "User,Employee,Admin")]
     public async Task<ActionResult<EngineDetailsDto>> GetByIdApi(int id)
     {
         var engine = await _engineService.GetByIdAsync(id);
@@ -40,7 +40,7 @@ public class EngineController : Controller
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin,Instructor")]
+    [Authorize(Roles = "Admin,Employee")]
     public async Task<ActionResult<EngineDetailsDto>> CreateApi([FromBody] EngineCreateDto engineDto)
     {
         if (!ModelState.IsValid)

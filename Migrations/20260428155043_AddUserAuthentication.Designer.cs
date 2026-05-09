@@ -275,7 +275,7 @@ namespace WebApplication3.Migrations
                             Id = 3,
                             CreatedAt = new DateTime(2026, 4, 28, 15, 50, 43, 335, DateTimeKind.Utc).AddTicks(7964),
                             PasswordHash = "r3XYi3XBVVb1ijSC0Dqw4Vxh7MhnTujhmyVu0Uz8T4B5pnJW",
-                            Role = "Instructor",
+                            Role = "Employee",
                             Username = "instructor"
                         });
                 });

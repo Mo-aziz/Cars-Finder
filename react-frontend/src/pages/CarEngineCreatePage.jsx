@@ -19,15 +19,15 @@ const CarEngineCreatePage = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  const { isAdmin, isInstructor } = useAuth()
+  const { isAdmin, isEmployee } = useAuth()
   const navigate = useNavigate()
 
   // Check authorization
   useEffect(() => {
-    if (!isAdmin && !isInstructor) {
+    if (!isAdmin && !isEmployee) {
       navigate('/car-engines')
     }
-  }, [isAdmin, isInstructor, navigate])
+  }, [isAdmin, isEmployee, navigate])
 
   useEffect(() => {
     fetchData()
